@@ -1,4 +1,4 @@
-const { readdirSync, lstatSync, readFileSync } = require('fs')
+const { readdirSync, readFileSync } = require('fs')
 const path = require('path')
 const dist = './dist'
 
@@ -7,7 +7,7 @@ const data = readdirSync(dist)
     version[dir] = readdirSync(`${dist}/${dir}`).reduce((files, f) => {
       const file = `${dist}/${dir}/${f}`
       files[f.split('.').shift()] = {
-        code: () => require(file),
+        require: () => require(file),
         string: readFileSync(file, 'utf8')
       }
       return files
