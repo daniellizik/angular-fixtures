@@ -8,11 +8,11 @@ angular
   .value('blah', function() {
     return { a: true }
   })
+  .run(function($blah) {
+    $blah({ template: '<dir></dir>' })
+  })
   .run(function() {
-    function blah() {
-
-    }
-    blah()
+    // do nothing
   })
   .config(() => {
     return function() {
@@ -38,6 +38,7 @@ angular
         <h3>comp b</h3>
         <p>{{vm.blah}}</p>
         <comp-c></comp-c>
+        <root></root>
         <div no-deps></div>
       </div>
     `
@@ -55,12 +56,12 @@ angular
     restrict: 'AE',
     template: `<h1>dir a</h1>`
   }))
-  .service('foobar', () => ({
+  .service('blah', () => ({
     a: true
   }))
-  .directive('someDeps', ['$compile', 'foobar', ($compile, foobar) => {
+  .directive('someDeps', ['$compile', 'blah', ($compile, blah) => {
     return {
-      template: 'some dep'
+      template: 'blahblah'
     }
   }])
   .controller('CtrlA', [function() {
