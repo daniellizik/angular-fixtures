@@ -1,14 +1,18 @@
-const { readFileSync } = require('fs')
+const { readdirSync, lstatSync, readFileSync } = require('fs')
+const path = require('path')
+const dist = './dist'
 
-exports.strings = {
-  flat: readFileSync('./fixtures/flat.js', 'utf8'),
-  multipleFlat: readFileSync('./fixtures/multipleFlat.js', 'utf8'),
-  enterprise: readFileSync('./fixtures/enterprise.js', 'utf8'),
-  indexHtml: readFileSync('./fixtures/index.html', 'utf8')
-}
+const data = readdirSync(dist)
+  .reduce((version, dir) => {
+    version[dir] = readdirSync(`${dist}/${dir}`).reduce((files, f) => {
+      const file = `${dist}/${dir}/${f}`
+      files[f.split('.').shift()] = {
+        code: () => require(file),
+        string: readFileSync(file, 'utf8')
+      }
+      return files
+    }, {})
+    return version
+  }, {})
 
-exports.code = {
-  flat: require('./fixtures/flat'),
-  multipleFlat: require('./fixtures/multipleFlat'),
-  enterprise: require('./fixtures/enterprise'),
-}
+module.exports = data
