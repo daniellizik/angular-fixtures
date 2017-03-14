@@ -15,7 +15,7 @@ exports.entry = {
 
 exports.output = {
   publicPath: '/',
-  path: `./dist/${ANGULAR_VERSION}`,
+  path: `./build/${ANGULAR_VERSION}`,
   filename: '[name].bundle.js'
 }
 
